@@ -2,6 +2,7 @@
   "expo": {
     "name": "Tab Navigation Template",
     "slug": "my-new-project",
+    "owner": "my-new",
     "privacy": "public",
     "sdkVersion": "36.0.0",
     "platforms": [

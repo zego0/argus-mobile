@@ -4,7 +4,7 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import OptionsScreen from '../screens/OptionsScreen';
-
+import Login from '../screens/Login';
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Home';
 
@@ -18,20 +18,13 @@ export default function BottomTabNavigator({ navigation, route }) {
     <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME}>
       <BottomTab.Screen
         name="Home"
-        component={HomeScreen}
+        component={LinksScreen}
         options={{
-          title: 'Get Started',
+          title: 'Home',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-home" />,
         }}
       />
-      <BottomTab.Screen
-        name="Links"
-        component={LinksScreen}
-        options={{
-          title: 'Change Camera',
-          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-camera" />,
-        }}
-      />
+
       <BottomTab.Screen
         name="Options"
         component={OptionsScreen}
@@ -49,10 +42,11 @@ function getHeaderTitle(route) {
 
   switch (routeName) {
     case 'Home':
-      return 'Streaming Camera {}';
+      return 'Streaming Camera';
     case 'Links':
       return 'Select a Camera';
     case 'Options':
       return 'Options Menu';
+
   }
 }

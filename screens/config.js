@@ -1,103 +1,94 @@
 import * as React from 'react';
-import {Component} from 'react';
-import { WebView } from 'react-native-webview'
 import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import * as WebBrowser from 'expo-web-browser';
 import {NavigationContainer} from '@react-navigation/native';
-
-import { db,app } from '../App0.js';
-import firebase from 'firebase';
-import { NavigationEvents } from "react-navigation";
+import {createStackNavigator} from '@react-navigation/stack';
 
 
-function sleep(ms)
- {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-
-var styles2 = StyleSheet.create({
-  backgroundVideo: {
-    width:400,
-    height:322
-  }
-})
 import { MonoText } from '../components/StyledText';
-global.cameraID = '';
-class HomeScreen extends Component {
 
-  state = {
-      url: '<html><body><img src=' + global.camLink +' width="100%" style=" min-height: 100%; min-width: 100%; position: fixed; top: 0; left: 0;"></body></html>',
-      width: 300,
-      height: 300
-  };
- deneme(){
-   var user = firebase.auth().currentUser;
-   console.log(user.uid)
-   var count = 0
-   const cameras = db.collection('users').doc(user.uid).collection('cameras').get()
-         .then(snapshot => {
-           snapshot.forEach(doc => {
-             if (count == 0){
-               global.cameraID = doc.id;
-               global.camLink = doc.data().camLink;
-               sleep(2000)
-               global.camLink = '<html><body><img src=' + global.camLink + ' width="100%" style=" min-height: 100%; min-width: 100%; position: fixed; top: 0; left: 0;"></body></html>'
-
-               console.log("camLink", global.camLink)
-               console.log("foreach", global.cameraID)
-             }
-             count = count + 1
-           })
-
-         })  .catch(err => {
-             console.log('Error getting documents', err);
-
-           });
-
-
- }
-
-async componentDidMount(){
-
-        const {navigation} = this.props;
-        navigation.addListener ('willFocus', () =>
-          this.deneme()
-        );
-        sleep(1000)
-        await this.setState({url: global.camLink})
-  }
-
-  render(){
-
+export default function HomeScreen() {
   return (
     <View style={styles.container}>
-      <ScrollView horizontal={true} style={styles.container} contentContainerStyle={styles.contentContainer}>
-
-        <View style={styles.getStartedContainer}>
-
-          <WebView
-            originWhitelist={['*']}
-            source={{ html: this.state.url }}
-            style={{ width: 450, height:600 }}
+      <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+        <View style={styles.welcomeContainer}>
+          <Image
+            source={
+              __DEV__
+                ? require('../assets/images/robot-dev.png')
+                : require('../assets/images/robot-prod.png')
+            }
+            style={styles.welcomeImage}
           />
-
-
         </View>
 
+        <View style={styles.getStartedContainer}>
+          <DevelopmentModeNotice />
+
+          <Text style={styles.getStartedText}>ehuehhehe</Text>
+
+          <View style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
+            <MonoText>HOME SCREEN STREAM WILL BE HERE</MonoText>
+          </View>
+
+          <Text style={styles.getStartedText}>
+            LA LALA LALALALALALAAL LAALALAL LALALA
+          </Text>
+        </View>
+
+        <View style={styles.helpContainer}>
+          <TouchableOpacity onPress={handleHelpPress} style={styles.helpLink}>
+            <Text style={styles.helpLinkText}>LINK EKLEMECE</Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
 
+      <View style={styles.tabBarInfoContainer}>
+
+
+
+      </View>
     </View>
   );
-}
 }
 
 HomeScreen.navigationOptions = {
   header: null,
 };
 
+function DevelopmentModeNotice() {
+  if (__DEV__) {
+    const learnMoreButton = (
+      <Text onPress={handleLearnMorePress} style={styles.helpLinkText}>
+        Learn more
+      </Text>
+    );
 
+    return (
+      <Text style={styles.developmentModeText}>
+        Development mode is enabled: your app will be slower but you can use useful development
+        tools. {learnMoreButton}
+      </Text>
+    );
+  } else {
+    return (
+      <Text style={styles.developmentModeText}>
+        You are not in development mode: your app will run at full speed.
+      </Text>
+    );
+  }
+}
+
+function handleLearnMorePress() {
+  WebBrowser.openBrowserAsync('https://docs.expo.io/versions/latest/workflow/development-mode/');
+}
+
+function handleHelpPress() {
+  WebBrowser.openBrowserAsync(
+    'https://docs.expo.io/versions/latest/get-started/create-a-new-app/#making-your-first-change'
+  );
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -112,7 +103,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   contentContainer: {
-    paddingTop: 5,
+    paddingTop: 30,
   },
   welcomeContainer: {
     alignItems: 'center',
@@ -187,4 +178,3 @@ const styles = StyleSheet.create({
     color: '#2e78b7',
   },
 });
-export default HomeScreen

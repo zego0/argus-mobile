@@ -1,12 +1,15 @@
 import * as React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+
 import * as WebBrowser from 'expo-web-browser';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { RectButton, ScrollView } from 'react-native-gesture-handler';
 import NavigationHistory from '../screens/NavigationHistory';
-import CameraData from '../CameraData';
+import CameraData from '../screens/CameraData';
+
+
 export default function OptionsScreen({ navigation }) {
 
   return (
@@ -14,9 +17,9 @@ export default function OptionsScreen({ navigation }) {
       <OptionButton
         name="CameraData"
         component={CameraData}
-        icon="md-settings"
+        icon="ios-albums"
         label="Notification Settings"
-        onPress={() => navigation.navigate('CameraData')}
+        onPress={() => navigation.navigate('Camera Data')}
       />
 
       <OptionButton
@@ -24,7 +27,7 @@ export default function OptionsScreen({ navigation }) {
         component={NavigationHistory}
         icon="md-list"
         label="Notification History"
-        onPress={() => navigation.navigate('NavigationHistory')}
+        onPress={() => navigation.navigate('Notification History')}
       />
 
       <OptionButton
